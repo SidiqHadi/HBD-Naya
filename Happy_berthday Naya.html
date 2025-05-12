@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Naya</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Sitka Text', serif;
+      background-color: #FFB6D5;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .balloon {
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      animation: float 8s infinite ease-in;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .photo-frame {
+      border: 10px dashed #fff3cd;
+      padding: 10px;
+      border-radius: 20px;
+      background: #fff8e1;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin: 10px;
+    }
+
+    .photo-frame img {
+      width: 250px;
+      height: auto;
+      border-radius: 15px;
+    }
+
+    .title {
+      font-family: 'Concert One', cursive;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      width: 80%;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .next-btn {
+      margin-top: 20px;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .cake-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .cake-container img {
+      width: 200px;
+      display: block;
+    }
+
+    .flame {
+      width: 10px;
+      height: 20px;
+      background: rgb(255, 123, 0);
+      border-radius: 50% 50% 0 0;
+      position: absolute;
+      top: 35px;
+      left: 51%;
+      transform: translateX(-50%);
+      animation: flicker 0.3s infinite;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) translateX(-50%); opacity: 1; }
+      50% { transform: scale(1.1) translateX(-50%); opacity: 0.6; }
+      100% { transform: scale(1) translateX(-50%); opacity: 1; }
+    }
+
+    .tiup-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tiup-btn.tiuped {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Balloons -->
+  <div class="balloon" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="balloon" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="balloon" style="left: 50%; animation-delay: 2s;"></div>
+  <div class="balloon" style="left: 70%; animation-delay: 3s;"></div>
+  <div class="balloon" style="left: 90%; animation-delay: 4s;"></div>
+
+  <!-- Page 1 -->
+  <div class="page active" id="page1">
+    <div class="title">Happy Birthday Naya🎉</div>
+    <div class="photo-frame">
+      <img src="foto_naya.jpeg" alt="Naya">
+    </div>
+    <div class="message">
+      selamat ulang tahun nay, semoga panjang umur sehat selalu, semoga impian lu perlahan bisa tercapai dan semoga apa yang udah lu jalanin selama ini bisa bermanfaat untuk banyak orang dan untuk diri lu sendiri, masyaAllah banget perjalanan yang udh lu jalanin, semoga terus berkembang jadi lebih baik lagi, dan yang paling penting, jangan lupa do'a disetiap langkah yang mau lu jalanin. I am proud of your achievements and your great journey. I hope all of this can be a valuable experience for you.
+    </div>
+    <button class="next-btn" onclick="goToPage2()">Next →</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page2">
+    <div class="cake-container">
+      <div class="flame" id="flame"></div>
+      <img src="cake_1.png" alt="cake">
+    </div>
+    <button class="tiup-btn" id="tiupBtn" onclick="tiupLilin()">Tiup Lilin Dulu Nay</button>
+  </div>
+</div>
+
+<!-- Musik -->
+<audio id="birthdayMusic" autoplay loop>
+  <source src="lagu_ultah.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  // Langsung play saat halaman dibuka (tanpa klik), tetapi mungkin diblokir oleh beberapa browser modern
+  window.addEventListener("load", function () {
+    const music = document.getElementById("birthdayMusic");
+    music.volume = 0.5;
+    const playPromise = music.play();
+
+    if (playPromise !== undefined) {
+      playPromise.catch((error) => {
+        console.log("Autoplay diblokir oleh browser. Musik akan dimainkan saat diklik.");
+        document.body.addEventListener("click", () => {
+          music.play();
+        }, { once: true });
+      });
+    }
+  });
+
+  function goToPage2() {
+    document.getElementById("page1").classList.remove("active");
+    document.getElementById("page2").classList.add("active");
+  }
+
+  function tiupLilin() {
+    const flame = document.getElementById("flame");
+    const btn = document.getElementById("tiupBtn");
+    btn.classList.add("tiuped");
+    btn.innerText = "Lilin Sudah Ditiup";
+    flame.style.animation = "fadeOut 2s forwards";
+    flame.style.opacity = "0";
+    flame.style.transition = "opacity 2s ease-out";
+  }
+</script>
+</body>
+</html>
